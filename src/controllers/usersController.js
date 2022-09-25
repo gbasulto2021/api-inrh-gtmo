@@ -17,16 +17,17 @@ usersController.userAuth = async (req, res) => {
             results.length == 0 ||
             !(await bcryptjs.compare(pass, results[0].pass))
           ) {
-            res.json({ok:false, status:401, statusText:"email or password incorrect"})
+            res.json({ok:false, status:401, statusText:"El email o contraseña es incorrecto"})
           } else {
             req.session.loggedin = true;
             req.session.name = results[0].name;
             req.session.rol = results[0].rol;
-            res.json({ok:true, status:200, statusText:"Login Successful"})
+            const {id_user,name,last_name} = results[0];
+            res.json({ok:true, status:200, statusText:"Login Exitoso", data:{id_user,name,last_name}})
           }
         });
       } else {
-        res.json({ok:false, status:400, statusText:"email and password are require"})
+        res.json({ok:false, status:400, statusText:"email y contraseña son requeridos"})
       }
     } catch (error) {
       console.log(error);
