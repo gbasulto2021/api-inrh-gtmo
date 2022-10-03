@@ -1,5 +1,6 @@
 const reportsController = {};
 const connection = require("../database/db");
+const { arrToChart } = require("../helpers/arrToChart");
 
 reportsController.getReports = (req, res) => {
   let sql = "SELECT * FROM factores";
@@ -10,6 +11,17 @@ reportsController.getReports = (req, res) => {
   });
 };
 
+reportsController.getOneReport = (req,res)=>{
+  const {year, municipio} =req.query
+  let sql = `SELECT * FROM factores WHERE (year ="${year}" AND municipio = "${municipio}")`;
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    // console.log(results);
+    const dataToChart = arrToChart(results)
+    res.json(dataToChart);
+  });
+}
+
 reportsController.addReport = (req, res) => {
   const {
     factorClimatico,
@@ -19,7 +31,6 @@ reportsController.addReport = (req, res) => {
     volumen,
     coberturaForestal,
     demanda,
-    fecha,
     municipio,
     mes,
     year,
@@ -34,7 +45,6 @@ reportsController.addReport = (req, res) => {
     volumen,
     cobertura_forestal:coberturaForestal,
     demanda,
-    fecha,
     municipio,
     mes,
     year,
