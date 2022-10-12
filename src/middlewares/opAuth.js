@@ -1,4 +1,5 @@
 const opAuth = (req,res,next)=>{
+  console.log(req.session.loggedin)
     if (req.session.loggedin) {
         next() 
          
