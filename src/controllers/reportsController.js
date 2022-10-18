@@ -1,7 +1,7 @@
 const reportsController = {};
 const connection = require("../database/db");
 const { arrToChart } = require("../helpers/arrToChart");
-const { report } = require("../routes");
+
 
 reportsController.getReports = (req, res) => {
   let sql = "SELECT * FROM factores";
